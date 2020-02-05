@@ -1,0 +1,51 @@
+Package: CDGnet
+Type: Package
+Title: R interface to Cancer Drug-Gene Networks (CDGnet)
+Version: 0.0.1
+Authors@R: c(
+      person("Jayaram", "Kancherla", email = "jayaram.kancherla@gmail.com",role = c("aut")),
+      person("Shruthi", "Rao", email = "email",role = c("aut")),
+      person("Hector Corrada", "Bravo", email = "hcorrada@gmail.com",role = c("aut")),
+      person("Simina M", "Boca", email = "smb310@georgetown.edu",role = c("aut", "cre"))
+  )
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+VignetteBuilder: knitr
+Depends:
+    R (>= 3.5.0),
+    methods
+Imports:
+    GenomicRanges,
+    tidyverse,
+    shiny,
+    shinyBS,
+    ggvis,
+    networkD3,
+    igraph,
+    kableExtra,
+    dplyr,
+    rDGIdb,
+    shinyjs,
+    shiny.router,
+    htmltools,
+    rjson
+Suggests:
+    testthat,
+    roxygen2,
+    knitr,
+    Biobase,
+    BiocStyle,
+    RColorBrewer,
+    magrittr
+Collate:
+  'cdgnet-data.R'
+  'cdgnet-functions.R'
+  'cdgnet-app.R'
+  'cdgnet-vis.R'
+  'cdgnet.R'
+  'utils.R'
+biocViews: Visualization, Infrastructure, GUI
+RoxygenNote: 6.0.1
