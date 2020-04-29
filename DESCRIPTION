@@ -16,12 +16,10 @@ LazyData: true
 VignetteBuilder: knitr
 Depends:
     R (>= 3.5.0),
-    methods
-Imports:
+    methods,
     GenomicRanges,
     tidyverse,
     shiny,
-    shinyBS,
     ggvis,
     networkD3,
     igraph,
@@ -31,7 +29,24 @@ Imports:
     shinyjs,
     shiny.router,
     htmltools,
-    rjson
+    rjson,
+    magrittr,
+    DT
+Imports:
+    GenomicRanges,
+    tidyverse,
+    shiny,
+    ggvis,
+    networkD3,
+    igraph,
+    kableExtra,
+    dplyr,
+    rDGIdb,
+    shinyjs,
+    shiny.router,
+    htmltools,
+    rjson,
+    DT
 Suggests:
     testthat,
     roxygen2,
@@ -41,11 +56,11 @@ Suggests:
     RColorBrewer,
     magrittr
 Collate:
-  'cdgnet-data.R'
+  'data.R'
   'cdgnet-functions.R'
-  'cdgnet-app.R'
+  'cdgnet-shiny.R'
   'cdgnet-vis.R'
   'cdgnet.R'
   'utils.R'
 biocViews: Visualization, Infrastructure, GUI
-RoxygenNote: 6.0.1
+RoxygenNote: 7.1.0

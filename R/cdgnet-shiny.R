@@ -18,9 +18,11 @@ possible_cancer_types <- c(
 )
 
 #' Defines shiny user interface for the cdgnet applicatio
+#' @import shiny
+#' @import shinyjs
 #'
 .cdgnetUI <- fluidPage(
-  useShinyjs(),
+  shinyjs::useShinyjs(),
 
   titlePanel("Therapy recommendations using biological networks"),
   HTML('<span style="color:red"><strong>Warning!</strong> The following tool is for research purposes only. It is not intended for clinical care. </span>'),
@@ -124,11 +126,15 @@ possible_cancer_types <- c(
 )
 
 #' router for the application to extract parameters from the url
+#' @import shiny.router
 router <- make_router(
-  route("/", ui, NA)
+  route("/", .cdgnetUI, NA)
 )
 
 #' shiny application server logic
+#' @import shiny
+#' @import shiny.router
+#' @import shinyjs
 .cdgnetServer <- function(input, output, session) {
   router(input, output, session)
 
@@ -432,7 +438,7 @@ router <- make_router(
     if (nrow(Type3()$drugs_mat) > 0) {
       res <- dataParser(MP, Type1_df, Type2_df, Type3_df)
 
-      chart <- networkViz:::NfpmViz(data = res)
+      chart <- CdgnetViz(data = res)
       chart$render_component(shiny = TRUE)
     }
   })
@@ -535,7 +541,7 @@ router <- make_router(
     if (nrow(Type4()$drugs_mat) > 0) {
       res <- dataParser(MP, Type1_df, Type2_df, Type4_df)
 
-      chart <- networkViz:::NfpmViz(data = res)
+      chart <- CdgnetViz(data = res)
       chart$render_component(shiny = TRUE)
     }
   })
