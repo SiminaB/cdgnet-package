@@ -31,7 +31,9 @@ Depends:
     htmltools,
     rjson,
     magrittr,
-    DT
+    DT,
+    KEGGREST,
+    KEGGgraph,
 Imports:
     GenomicRanges,
     tidyverse,
@@ -62,5 +64,6 @@ Collate:
   'cdgnet-vis.R'
   'cdgnet.R'
   'utils.R'
+  'kegg-utils.R'
 biocViews: Visualization, Infrastructure, GUI
 RoxygenNote: 7.1.0
