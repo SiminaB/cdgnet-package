@@ -3,6 +3,32 @@ require(KEGGgraph)
 require(org.Hs.eg.db)
 require(dplyr)
 
+.check_and_load_KEGG <- function(ask_and_install=FALSE) {
+  final_out_path <- file.path(system.file(package="CDGnet"), "kegg_data")
+  filepath <- file.path(final_out_path, "list_paths_KEGG.RData")
+
+  if (!file.exists(filepath)) {
+    cat("[CDGnet] KEGG pathway data has not been downloaded yet. This needs one time to be done to properly use the CDGnet application.\n")
+
+    if (ask_and_install) {
+      cat("[CDGnet] Do you want to download KEGG pathway data now?")
+      if (utils::menu(c("Yes", "No")) == 1) {
+        .download_and_process_KEGG()
+      } else {
+        cat("[CDGnet] You chose not to download KEGG pathway data. The CDGnet app will not function properly. ")
+        cat("You can download data at a later time using function 'CDGnet:::.download_and_process_KEGG()'\n")
+        stop()
+      }
+    } else {
+      cat("You can download data using function 'CDGnet:::.download_and_process_KEGG()'")
+      stop()
+    }
+  }
+
+  message("[CDGnet] Loading KEGG pathway data")
+  load(filepath)
+}
+
 .download_and_process_KEGG <- function(basedir=tempdir()) {
   kgml_path <- file.path(basedir, "_KGML")
   if (!file.exists(kgml_path)) {
@@ -22,13 +48,13 @@ require(dplyr)
   .get_all_KEGG_hsa_pathways(kgml_path)
   .parse_KGML(in_path=kgml_path, out_path=csv_path)
   res <- .bind_KEGG_files(csv_path)
-  connections_KEGG <- res$connections_KEGG
   list_paths_KEGG <- res$list_paths_KEGG
+  save(list_paths_KEGG, file=file.path(final_out_path, "list_paths_KEGG.RData"))
 
-  KEGG_cancer_paths_onc_long <- .parse_KEGG_oncogene_info(connections_KEGG)
-  .preprocess_KEGG_objects(KEGG_cancer_paths_onc_long,
-                           list_paths_KEGG,
-                           final_out_path)
+  #KEGG_cancer_paths_onc_long <- .parse_KEGG_oncogene_info(connections_KEGG)
+  #.preprocess_KEGG_objects(KEGG_cancer_paths_onc_long,
+  #                         list_paths_KEGG,
+  #                         final_out_path)
 }
 
 .preprocess_KEGG_objects <- function(KEGG_cancer_paths_onc_long,
@@ -184,7 +210,7 @@ require(dplyr)
 .get_all_KEGG_hsa_pathways <- function(out_path) {
   all_path_KEGG <- keggList("pathway", organism="hsa")
 
-  message("[cdgnet] Downloading pathway info from KEGG")
+  message("[cdgnet] Downloading pathway info from KEGG (this may take a few minutes)")
 
   suppressWarnings(for(path in names(all_path_KEGG)) {
     path_name <- gsub("path:","",path)
