@@ -8,3 +8,12 @@ cdgnetApp <- function(database=NULL, names=NULL) {
   shinyjs::useShinyjs()
   shinyApp(ui = .cdgnetUI, server = .cdgnetServer)
 }
+
+#' run the CDGnet app
+#'
+#' @usage runApp()
+#'
+#' @export
+runApp <- function() {
+  source(file.path(system.file("appdir", package="CDGnet"), "app.R"))
+}

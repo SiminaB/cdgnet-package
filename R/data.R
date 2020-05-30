@@ -12,9 +12,6 @@
 #' KEGG_cancer_paths_onc_long
 "KEGG_cancer_paths_onc_long"
 
-#' list_paths_KEGG
-"list_paths_KEGG"
-
 #' FDA_approved_drugs
 "FDA_approved_drugs"
 

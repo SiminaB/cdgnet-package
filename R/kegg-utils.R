@@ -14,7 +14,11 @@ require(dplyr)
   }
 }
 
-.download_and_process_KEGG <- function(basedir=tempdir()) {
+#' Download and process KEGG pathway files
+#'
+#' @usage download_and_process_KEGG()
+#' @export
+download_and_process_KEGG <- function(basedir=tempdir()) {
   kgml_path <- file.path(basedir, "_KGML")
   if (!file.exists(kgml_path)) {
     dir.create(kgml_path)
