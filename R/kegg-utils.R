@@ -3,30 +3,15 @@ require(KEGGgraph)
 require(org.Hs.eg.db)
 require(dplyr)
 
-.check_and_load_KEGG <- function(ask_and_install=FALSE) {
-  final_out_path <- file.path(system.file(package="CDGnet"), "kegg_data")
+.check_KEGG <- function() {
+  final_out_path <- system.file("appdir", package="CDGnet")
   filepath <- file.path(final_out_path, "list_paths_KEGG.RData")
 
   if (!file.exists(filepath)) {
-    cat("[CDGnet] KEGG pathway data has not been downloaded yet. This needs one time to be done to properly use the CDGnet application.\n")
-
-    if (ask_and_install) {
-      cat("[CDGnet] Do you want to download KEGG pathway data now?")
-      if (utils::menu(c("Yes", "No")) == 1) {
-        .download_and_process_KEGG()
-      } else {
-        cat("[CDGnet] You chose not to download KEGG pathway data. The CDGnet app will not function properly. ")
-        cat("You can download data at a later time using function 'CDGnet:::.download_and_process_KEGG()'\n")
-        stop()
-      }
-    } else {
-      cat("You can download data using function 'CDGnet:::.download_and_process_KEGG()'")
-      stop()
-    }
+    cat("[CDGnet] KEGG pathway data has not been downloaded yet. This needs to be done once to properly use the CDGnet application.\n")
+    cat("You can download data using function 'CDGnet:::.download_and_process_KEGG()'")
+    stop()
   }
-
-  message("[CDGnet] Loading KEGG pathway data")
-  load(filepath)
 }
 
 .download_and_process_KEGG <- function(basedir=tempdir()) {
@@ -40,25 +25,22 @@ require(dplyr)
     dir.create(csv_path)
   }
 
-  final_out_path <- file.path(system.file(package="CDGnet"), "kegg_data")
-  if (!file.exists(final_out_path)) {
-    dir.create(final_out_path)
-  }
+  final_out_path <- system.file("appdir", package="CDGnet")
 
   .get_all_KEGG_hsa_pathways(kgml_path)
   .parse_KGML(in_path=kgml_path, out_path=csv_path)
   res <- .bind_KEGG_files(csv_path)
   list_paths_KEGG <- res$list_paths_KEGG
-  save(list_paths_KEGG, file=file.path(final_out_path, "list_paths_KEGG.RData"))
+  #save(list_paths_KEGG, file=file.path(final_out_path, "list_paths_KEGG.RData"))
 
   #KEGG_cancer_paths_onc_long <- .parse_KEGG_oncogene_info(connections_KEGG)
-  #.preprocess_KEGG_objects(KEGG_cancer_paths_onc_long,
-  #                         list_paths_KEGG,
-  #                         final_out_path)
+  .preprocess_KEGG_objects(KEGG_cancer_paths_onc_long,
+                           list_paths_KEGG,
+                           final_out_path)
 }
 
 .preprocess_KEGG_objects <- function(KEGG_cancer_paths_onc_long,
-                                     list_paths_KEGG_stand,
+                                     list_paths_KEGG,
                                      out_path) {
   message("[cdgnet] Saving KEGG info")
 
@@ -89,7 +71,7 @@ require(dplyr)
   list_paths_KEGG <- list_paths_KEGG[names(KEGG_path_id2name)]
   names(list_paths_KEGG) <- KEGG_path_id2name[names(list_paths_KEGG)]
 
-  save(KEGG_cancer_paths_long_onc, file=file.path(out_path, "KEGG_cancer_paths_long_onc.RData"))
+  #save(KEGG_cancer_paths_long_onc, file=file.path(out_path, "KEGG_cancer_paths_long_onc.RData"))
   save(list_paths_KEGG, file=file.path(out_path, "list_paths_KEGG.RData"))
 }
 
@@ -154,8 +136,7 @@ require(dplyr)
     ##convert KGML to data frame
     current_df <- parseKGML2DataFrame(file_path_kgml)
 
-    if(nrow(current_df) > 0)
-    {
+    if (nrow(current_df) > 0) {
       current_df$from <- as.character(current_df$from)
       current_df$to <- as.character(current_df$to)
       ##get all KEGG IDs for nodes
@@ -170,7 +151,7 @@ require(dplyr)
         head(all_nodes)
         head(all_nodes_gid)
 
-        gid_to_name <- as.character(org.Hs.egSYMBOL)
+        gid_to_name <- as.character(org.Hs.eg.db::org.Hs.egSYMBOL)
         all_nodes_gene_symbol <- gid_to_name[all_nodes_gid]
         head(all_nodes_gene_symbol)
         length(all_nodes_gene_symbol)
@@ -214,8 +195,10 @@ require(dplyr)
 
   suppressWarnings(for(path in names(all_path_KEGG)) {
     path_name <- gsub("path:","",path)
-    path_kgml <- keggGet(path, "kgml")
     filename <- paste0(path_name, ".kgml")
-    write(path_kgml, file.path(out_path, filename))
+    if (!file.exists(file.path(out_path, filename))) {
+      path_kgml <- keggGet(path, "kgml")
+      write(path_kgml, file.path(out_path, filename))
+    }
   })
 }

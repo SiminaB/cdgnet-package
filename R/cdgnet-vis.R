@@ -155,7 +155,7 @@ CdgnetViz <- setRefClass("CdgnetViz",
           name="nfpm-viz",
           version="1",
           head=paste0("<link rel='import' href='",  polymer_lib, "'>"),
-          src=system.file(package="networkViz", "nfpm-viz"),
+          src=system.file(package="CDGnet", "nfpm-viz"),
           all_files=TRUE)
       )
     }
