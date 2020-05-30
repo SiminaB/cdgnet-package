@@ -11,9 +11,10 @@ cdgnetApp <- function(database=NULL, names=NULL) {
 
 #' run the CDGnet app
 #'
+#' @note Make sure to run function [`download_and_process_KEGG`] before running the app
 #' @usage runApp()
 #'
 #' @export
-runApp <- function() {
+runCDGnet <- function() {
   source(file.path(system.file("appdir", package="CDGnet"), "app.R"))
 }
