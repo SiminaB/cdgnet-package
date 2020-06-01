@@ -3,8 +3,11 @@ options(repos = BiocManager::repositories())
 
 library(CDGnet)
 
-CDGnet:::.check_KEGG()
-load(file.path(system.file("appdir", package="CDGnet"), "list_paths_KEGG.RData"))
+if (!file.exists("list_paths_KEGG.RData")) {
+  stop("KEGG data not found. Download with function CDGnet::download_and_process_KEGG()")
+}
+
+load("list_paths_KEGG.RData")
 
 data(DrugBank_targets)
 data(drugs_PO_FDA_biomarkers)

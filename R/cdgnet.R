@@ -16,5 +16,9 @@ cdgnetApp <- function(database=NULL, names=NULL) {
 #'
 #' @export
 runCDGnet <- function() {
-  source(file.path(system.file("appdir", package="CDGnet"), "app.R"))
+  this_dir <- getwd()
+  on.exit(setwd(this_dir))
+
+  setwd(file.path(system.file("appdir", package="CDGnet")))
+  source("app.R")
 }
