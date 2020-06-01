@@ -9,6 +9,9 @@ if (!file.exists("list_paths_KEGG.RData")) {
 
 load("list_paths_KEGG.RData")
 
+cat("list_paths_KEGG names:")
+print(names(list_paths_KEGG))
+
 data(DrugBank_targets)
 data(drugs_PO_FDA_biomarkers)
 data(drugs_PO_FDA_targets)

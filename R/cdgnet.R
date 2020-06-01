@@ -6,6 +6,9 @@
 cdgnetApp <- function(database=NULL, names=NULL) {
   # Run the application
   shinyjs::useShinyjs()
+
+  cat("list paths within app function")
+  print(names(list_paths_KEGG))
   shinyApp(ui = .cdgnetUI, server = .cdgnetServer)
 }
 
