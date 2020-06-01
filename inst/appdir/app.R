@@ -19,4 +19,4 @@ data(prop2non_prop)
 data(prop_non_prop)
 data(Onc_df)
 
-shiny::runApp(CDGnet::cdgnetApp())
+CDGnet::cdgnetApp()

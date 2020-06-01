@@ -21,4 +21,5 @@ runCDGnet <- function() {
 
   setwd(file.path(system.file("appdir", package="CDGnet")))
   source("app.R")
+  shiny::runApp(cdgnetApp())
 }
