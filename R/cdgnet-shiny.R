@@ -132,6 +132,8 @@ router <- make_router(
 )
 
 .wrapServer <- function(list_paths_KEGG) {
+  cat("kegg inside wrapper")
+  print(names(list_paths_KEGG))
   .cdgnetServer
 }
 
