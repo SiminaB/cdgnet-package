@@ -131,6 +131,10 @@ router <- make_router(
   route("/", .cdgnetUI, NA)
 )
 
+.wrapServer <- function(list_paths_KEGG) {
+  .cdgnetServer
+}
+
 #' shiny application server logic
 #' @import shiny
 #' @import shiny.router

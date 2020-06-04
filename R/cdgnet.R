@@ -9,7 +9,7 @@ cdgnetApp <- function(database=NULL, names=NULL) {
 
   cat("list paths within app function")
   print(names(list_paths_KEGG))
-  shinyApp(ui = .cdgnetUI, server = .cdgnetServer)
+  shinyApp(ui = .cdgnetUI, server = .wrapServer(list_paths_KEGG))
 }
 
 #' run the CDGnet app
