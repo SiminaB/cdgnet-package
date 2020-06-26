@@ -3,13 +3,15 @@ require(KEGGgraph)
 require(org.Hs.eg.db)
 require(dplyr)
 
-.keggFile <- function() {
-  final_out_path <- system.file("appdir", package="CDGnet")
-  file.path(final_out_path, "list_paths_KEGG.rds")
+.keggFile <- function(package=TRUE) {
+  file_dir <- ifelse(package,
+                     system.file("appdir", package="CDGnet"),
+                     getwd())
+  file.path(file_dir, "list_paths_KEGG.rds")
 }
 
-.check_KEGG <- function() {
-  if (!file.exists(.keggFile())) {
+.check_KEGG <- function(package=TRUE) {
+  if (!file.exists(.keggFile(package=package))) {
     cat("[CDGnet] KEGG pathway data has not been downloaded yet. This needs to be done once to properly use the CDGnet application.\n")
     cat("You can download data using function 'CDGnet:::.download_and_process_KEGG()'")
     stop()
@@ -74,7 +76,7 @@ download_and_process_KEGG <- function(basedir=tempdir()) {
   names(list_paths_KEGG) <- KEGG_path_id2name[names(list_paths_KEGG)]
 
   #save(KEGG_cancer_paths_long_onc, file=file.path(out_path, "KEGG_cancer_paths_long_onc.RData"))
-  saveRDS(list_paths_KEGG, file=.keggFile())
+  saveRDS(list_paths_KEGG, file=.keggFile(package=TRUE))
 }
 
 .parse_KEGG_oncogene_info <- function(KEGG_cancer_paths_onc) {

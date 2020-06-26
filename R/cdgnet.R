@@ -3,16 +3,15 @@
 #'
 #'@export
 #'
-cdgnetApp <- function(database=NULL, names=NULL) {
+cdgnetApp <- function(kegg_path, database=NULL, names=NULL) {
   # Run the application
   shinyjs::useShinyjs()
-  .check_KEGG()
 
   shinyApp(ui = .cdgnetUI,
            server = .cdgnetServer,
            onStart = function() {
              assign("list_paths_KEGG",
-                    readRDS(.keggFile()),
+                    readRDS(kegg_path),
                     envir= globalenv() ) }
   )
 }
@@ -24,5 +23,7 @@ cdgnetApp <- function(database=NULL, names=NULL) {
 #'
 #' @export
 runCDGnet <- function() {
-  shiny::runApp(cdgnetApp())
+  .check_KEGG(package=TRUE)
+  kegg_path <- .keggFile(package=TRUE)
+  shiny::runApp(cdgnetApp(kegg_path))
 }
