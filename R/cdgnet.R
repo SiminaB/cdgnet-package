@@ -3,21 +3,18 @@
 #'
 #'@export
 #'
-cdgnetApp <- function(list_paths_KEGG_file, database=NULL, names=NULL) {
+cdgnetApp <- function(database=NULL, names=NULL) {
   # Run the application
   shinyjs::useShinyjs()
+  .check_KEGG()
 
-  load(list_paths_KEGG_file)
-  cat("list paths within app function")
-  print(names(list_paths_KEGG))
-
-#  e <- environment(.cdgnetServer)
-#  assign("list_paths_KEGG", list_paths_KEGG, e)
-
-#  stopifnot(exists("list_paths_KEGG", envir=e))
-
-  print(ls(environment(.cdgnetServer)))
-  shinyApp(ui = .cdgnetUI, server = eval(.cdgnetServer, envir=e))
+  shinyApp(ui = .cdgnetUI,
+           server = .cdgnetServer,
+           onStart = function() {
+             assign("list_paths_KEGG",
+                    readRDS(.keggFile()),
+                    envir= globalenv() ) }
+  )
 }
 
 #' run the CDGnet app
@@ -27,12 +24,5 @@ cdgnetApp <- function(list_paths_KEGG_file, database=NULL, names=NULL) {
 #'
 #' @export
 runCDGnet <- function() {
-  list_paths_KEGG_file <- file.path(system.file("appdir", package="CDGnet"), "list_paths_KEGG.RData")
-
-  if (!file.exists(list_paths_KEGG_file)) {
-    stop("KEGG data not found. Download with function CDGnet::download_and_process_KEGG()")
-  }
-
-
-  shiny::runApp(cdgnetApp(list_paths_KEGG_file))
+  shiny::runApp(cdgnetApp())
 }

@@ -17,6 +17,7 @@ remotes::install_github('SiminaB/cdgnet-package', dependencies=TRUE)
 `CDGnet` uses pathway information that needs to be download and processed before using the application. This only needs to be done once per installation.
 
 ```r
+library(CDGnet)
 CDGnet::download_and_process_KEGG()
 ```
 
