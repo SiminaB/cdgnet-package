@@ -7,21 +7,17 @@ cdgnetApp <- function(list_paths_KEGG_file, database=NULL, names=NULL) {
   # Run the application
   shinyjs::useShinyjs()
 
-  data(DrugBank_targets)
-  data(drugs_PO_FDA_biomarkers)
-  data(drugs_PO_FDA_targets)
-  data(KEGG_cancer_paths_onc_long)
-  data(FDA_approved_drugs)
-  data(non_prop2prop)
-  data(prop2non_prop)
-  data(prop_non_prop)
-  data(Onc_df)
-
   load(list_paths_KEGG_file)
   cat("list paths within app function")
   print(names(list_paths_KEGG))
 
-  shinyApp(ui = .cdgnetUI, server = .cdgnetServer)
+#  e <- environment(.cdgnetServer)
+#  assign("list_paths_KEGG", list_paths_KEGG, e)
+
+#  stopifnot(exists("list_paths_KEGG", envir=e))
+
+  print(ls(environment(.cdgnetServer)))
+  shinyApp(ui = .cdgnetUI, server = eval(.cdgnetServer, envir=e))
 }
 
 #' run the CDGnet app

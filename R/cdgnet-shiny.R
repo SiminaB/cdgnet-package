@@ -136,6 +136,7 @@ router <- make_router(
 #' @import shiny.router
 #' @import shinyjs
 .cdgnetServer <- function(input, output, session) {
+  print(names(list_paths_KEGG))
   router(input, output, session)
 
   session$userData$firstrun <- 1
