@@ -9,7 +9,7 @@ Package repository for the `CDGnet` application. `CDGnet` is described in the fo
 Install from github using the `remotes` package:
 
 ```r
-remotes::install_github('jkanche/cdgnet-package')
+remotes::install_github('SiminaB/cdgnet-package', dependencies=TRUE)
 ```
 
 ## Preparation
