@@ -39,8 +39,7 @@ download_and_process_KEGG <- function(basedir=tempdir()) {
 
   #KEGG_cancer_paths_onc_long <- .parse_KEGG_oncogene_info(connections_KEGG)
   .preprocess_KEGG_objects(KEGG_cancer_paths_onc_long,
-                           list_paths_KEGG,
-                           final_out_path)
+                           list_paths_KEGG)
 }
 
 .preprocess_KEGG_objects <- function(KEGG_cancer_paths_onc_long,
