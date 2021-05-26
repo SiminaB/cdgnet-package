@@ -4,7 +4,7 @@ Title: R interface to Cancer Drug-Gene Networks (CDGnet)
 Version: 0.0.1
 Authors@R: c(
       person("Jayaram", "Kancherla", email = "jayaram.kancherla@gmail.com",role = c("aut")),
-      person("Shruthi", "Rao", email = "email",role = c("aut")),
+      person("Shruti", "Rao", email = "email",role = c("aut")),
       person("Hector Corrada", "Bravo", email = "hcorrada@gmail.com",role = c("aut")),
       person("Simina M", "Boca", email = "smb310@georgetown.edu",role = c("aut", "cre"))
   )
